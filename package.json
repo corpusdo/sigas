@@ -1,0 +1,30 @@
+{
+  "name": "sigas",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:warga": "turbo run build --filter=@sigas/warga",
+    "build:pangkalan": "turbo run build --filter=@sigas/pangkalan",
+    "build:dashboard": "turbo run build --filter=@sigas/dashboard",
+    "dev": "turbo run dev",
+    "dev:warga": "turbo run dev --filter=@sigas/warga",
+    "dev:pangkalan": "turbo run dev --filter=@sigas/pangkalan",
+    "dev:dashboard": "turbo run dev --filter=@sigas/dashboard",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "generate-secrets": "node scripts/generate-secrets.js",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:types": "supabase gen types typescript --local --schema public > packages/types/src/database.types.ts"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "pnpm@9.1.4",
+  "engines": {
+    "node": ">=18.17.0",
+    "pnpm": ">=9.0.0"
+  }
+}
