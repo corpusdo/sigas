@@ -1,10 +1,11 @@
 // Supabase client untuk Server Components, Server Actions, Route Handlers
 // JANGAN import ini di Client Component ('use client') — akan error
-// Membaca cookie dari next/headers untuk sesi user yang sudah login
 
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import type { Database } from '@/lib/supabase/database.types'
+
+type CookieToSet = { name: string; value: string; options?: Record<string, unknown> }
 
 export async function createClient() {
   const cookieStore = await cookies()
@@ -17,10 +18,11 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options),
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              cookieStore.set(name, value, options as any),
             )
           } catch {
             // setAll dipanggil dari Server Component — aman diabaikan
@@ -48,16 +50,16 @@ export async function createAdminClient() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options),
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              cookieStore.set(name, value, options as any),
             )
           } catch { /* lihat komentar di atas */ }
         },
       },
       auth: {
-        // Service role tidak perlu auto-refresh token
         autoRefreshToken: false,
         persistSession: false,
       },
